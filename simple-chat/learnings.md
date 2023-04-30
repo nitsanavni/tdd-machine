@@ -1,0 +1,2 @@
+-   use diff/patch iso of full re-write
+-   having the chat in the cli, means I can send code easily
