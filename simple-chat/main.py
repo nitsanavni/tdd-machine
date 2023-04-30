@@ -1,6 +1,7 @@
 import json
 import requests
 import os
+import sys
 from pathlib import Path
 
 API_KEY = os.environ["OPENAI_API_KEY"]
@@ -62,16 +63,16 @@ def send_message_to_api(content):
 
 
 if __name__ == "__main__":
-    while True:
-        user_input = input("You: ")
-        if user_input.lower() in ["exit", "quit", "bye"]:
-            print("Goodbye!")
-            break
-        elif user_input.lower().startswith("switch "):
-            _, new_chat_filename = user_input.split(" ", 1)
-            switch_chat(new_chat_filename)
-            print(f"Switched to chat: {new_chat_filename}")
-            continue
+    if len(sys.argv) < 2:
+        print("Usage: python main.py <user_prompt>")
+        sys.exit(1)
 
+    user_input = sys.argv[1]
+
+    if user_input.lower().startswith("switch "):
+        _, new_chat_filename = user_input.split(" ", 1)
+        switch_chat(new_chat_filename)
+        print(f"Switched to chat: {new_chat_filename}")
+    else:
         assistant_response = send_message_to_api(user_input)
         print(f"GPT-4: {assistant_response}")
