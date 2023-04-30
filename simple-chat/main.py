@@ -11,15 +11,36 @@ HEADERS = {
 }
 
 
+def initialize_chat_file(chat_filename):
+    chat_filepath = Path(chat_filename)
+    if not chat_filepath.exists():
+        with open(chat_filename, "w") as f:
+            json.dump([], f)
+
+
 def load_chat_history():
     with open("current_chat.txt", "r") as f:
+        current_chat = f.read().strip()
+
+    initialize_chat_file(current_chat)
+
+    with open(current_chat, "r") as f:
         chat_history = json.load(f)
+
     return chat_history
 
 
 def save_chat_history(chat_history):
-    with open("current_chat.txt", "w") as f:
+    with open("current_chat.txt", "r") as f:
+        current_chat = f.read().strip()
+
+    with open(current_chat, "w") as f:
         json.dump(chat_history, f)
+
+
+def switch_chat(new_chat_filename):
+    with open("current_chat.txt", "w") as f:
+        f.write(new_chat_filename)
 
 
 def send_message_to_api(content):
@@ -46,6 +67,11 @@ if __name__ == "__main__":
         if user_input.lower() in ["exit", "quit", "bye"]:
             print("Goodbye!")
             break
+        elif user_input.lower().startswith("switch "):
+            _, new_chat_filename = user_input.split(" ", 1)
+            switch_chat(new_chat_filename)
+            print(f"Switched to chat: {new_chat_filename}")
+            continue
 
         assistant_response = send_message_to_api(user_input)
         print(f"GPT-4: {assistant_response}")

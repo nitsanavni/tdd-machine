@@ -1,1 +1,1 @@
-[{"role": "user", "content": "hello"}, {"role": "assistant", "content": "Hello! How can I help you today?"}, {"role": "user", "content": "remember this number: 56"}, {"role": "assistant", "content": "I will remember this number for you: 56. Please let me know if you need me to recall it later."}, {"role": "user", "content": "yes, please recall it now"}, {"role": "assistant", "content": "Certainly! The number you asked me to remember is 56."}]
+second-chat
