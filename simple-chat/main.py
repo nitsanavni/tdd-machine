@@ -2,6 +2,7 @@ import json
 import requests
 import os
 import sys
+import subprocess
 from pathlib import Path
 
 API_KEY = os.environ["OPENAI_API_KEY"]
@@ -62,6 +63,18 @@ def contact_api(content):
         return "Error: Unable to get a response from the GPT-4 API."
 
 
+def execute_and_get_result(command):
+    try:
+        output = subprocess.check_output(
+            command, shell=True, stderr=subprocess.STDOUT, text=True)
+        exit_status = 0
+    except subprocess.CalledProcessError as e:
+        output = e.output
+        exit_status = e.returncode
+
+    return output.strip(), exit_status
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python main.py <user_prompt>")
@@ -76,3 +89,18 @@ if __name__ == "__main__":
     else:
         assistant_response = contact_api(user_input)
         print(f"GPT-4: {assistant_response}")
+
+        # If the message starts with the keyword "execute", attempt to execute the command
+        if assistant_response.lower().startswith("execute:"):
+
+            # Remove the 'execute:' keyword and strip whitespaces
+            command = assistant_response[len("execute:"):].strip()
+
+            command_output, exit_status = execute_and_get_result(command)
+
+            print(f"Output: {command_output}\nExit Status: {exit_status}")
+
+            # Send the command output and exit status back to the LLM for further conversation
+            user_input = f"The command executed with the following output:\n{command_output}\nExit Status: {exit_status}"
+            assistant_response = contact_api(user_input)
+            print(f"GPT-4: {assistant_response}")
