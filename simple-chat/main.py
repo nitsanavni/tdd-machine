@@ -12,18 +12,18 @@ HEADERS = {
 }
 
 
-def initialize_chat_file(chat_filename):
+def create_chat_file(chat_filename):
     chat_filepath = Path(chat_filename)
     if not chat_filepath.exists():
         with open(chat_filename, "w") as f:
             json.dump([], f)
 
 
-def load_chat_history():
+def get_chat_history():
     with open("current_chat.txt", "r") as f:
         current_chat = f.read().strip()
 
-    initialize_chat_file(current_chat)
+    create_chat_file(current_chat)
 
     with open(current_chat, "r") as f:
         chat_history = json.load(f)
@@ -31,7 +31,7 @@ def load_chat_history():
     return chat_history
 
 
-def save_chat_history(chat_history):
+def store_chat_history(chat_history):
     with open("current_chat.txt", "r") as f:
         current_chat = f.read().strip()
 
@@ -39,13 +39,13 @@ def save_chat_history(chat_history):
         json.dump(chat_history, f)
 
 
-def switch_chat(new_chat_filename):
+def change_chat(new_chat_filename):
     with open("current_chat.txt", "w") as f:
         f.write(new_chat_filename)
 
 
-def send_message_to_api(content):
-    chat_history = load_chat_history()
+def contact_api(content):
+    chat_history = get_chat_history()
     chat_history.append({"role": "user", "content": content})
 
     response = requests.post(API_URL, headers=HEADERS, json={
@@ -56,7 +56,7 @@ def send_message_to_api(content):
         assistant_message = response_json["choices"][0]["message"]["content"]
         chat_history.append(
             {"role": "assistant", "content": assistant_message})
-        save_chat_history(chat_history)
+        store_chat_history(chat_history)
         return assistant_message
     else:
         return "Error: Unable to get a response from the GPT-4 API."
@@ -71,8 +71,8 @@ if __name__ == "__main__":
 
     if user_input.lower().startswith("switch "):
         _, new_chat_filename = user_input.split(" ", 1)
-        switch_chat(new_chat_filename)
+        change_chat(new_chat_filename)
         print(f"Switched to chat: {new_chat_filename}")
     else:
-        assistant_response = send_message_to_api(user_input)
+        assistant_response = contact_api(user_input)
         print(f"GPT-4: {assistant_response}")
