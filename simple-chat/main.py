@@ -64,23 +64,38 @@ def contact_api(content):
 
 
 def execute_and_get_result(command):
-    try:
-        output = subprocess.check_output(
-            command, shell=True, stderr=subprocess.STDOUT, text=True)
-        exit_status = 0
-    except subprocess.CalledProcessError as e:
-        output = e.output
-        exit_status = e.returncode
+    print(f"About to execute the following command: {command}")
+    confirmation = input("Do you want to proceed? (yes/no): ").lower().strip()
 
-    return output.strip(), exit_status
+    if confirmation == "yes":
+        try:
+            output = subprocess.check_output(
+                command, shell=True, stderr=subprocess.STDOUT, text=True)
+            exit_status = 0
+        except subprocess.CalledProcessError as e:
+            output = e.output
+            exit_status = e.returncode
+
+        return output.strip(), exit_status
+    else:
+        print("Command execution canceled.")
+        return "Canceled by user", -1
 
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python main.py <user_prompt>")
-        sys.exit(1)
+def split_response_and_command(assistant_response):
+    lines = assistant_response.split("\n")
+    message = []
+    execute_command = None
+    for line in lines:
+        if line.lower().startswith("execute:"):
+            execute_command = line[len("execute:"):].strip()
+        else:
+            message.append(line)
+    return "\n".join(message).strip(), execute_command
 
-    user_input = sys.argv[1]
+
+while True:
+    user_input = input("You: ")
 
     if user_input.lower().startswith("switch "):
         _, new_chat_filename = user_input.split(" ", 1)
@@ -88,19 +103,19 @@ if __name__ == "__main__":
         print(f"Switched to chat: {new_chat_filename}")
     else:
         assistant_response = contact_api(user_input)
-        print(f"GPT-4: {assistant_response}")
 
-        # If the message starts with the keyword "execute", attempt to execute the command
-        if assistant_response.lower().startswith("execute:"):
+        message, command = split_response_and_command(assistant_response)
 
-            # Remove the 'execute:' keyword and strip whitespaces
-            command = assistant_response[len("execute:"):].strip()
+        print(f"GPT-4: {message}")
 
+        if command:
             command_output, exit_status = execute_and_get_result(command)
 
             print(f"Output: {command_output}\nExit Status: {exit_status}")
 
-            # Send the command output and exit status back to the LLM for further conversation
             user_input = f"The command executed with the following output:\n{command_output}\nExit Status: {exit_status}"
             assistant_response = contact_api(user_input)
-            print(f"GPT-4: {assistant_response}")
+
+            message, command = split_response_and_command(assistant_response)
+
+            print(f"GPT-4: {message}")
