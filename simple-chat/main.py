@@ -95,7 +95,17 @@ def split_response_and_command(assistant_response):
 
 
 while True:
-    user_input = input("You: ")
+    user_input_lines = []
+    print("You (Press Ctrl+D to submit your input):")
+    while True:
+        try:
+            line = input()
+            user_input_lines.append(line)
+        except EOFError:
+            print()  # Add an extra newline before continuing
+            break
+
+    user_input = "\n".join(user_input_lines)
 
     if user_input.lower().startswith("switch "):
         _, new_chat_filename = user_input.split(" ", 1)
