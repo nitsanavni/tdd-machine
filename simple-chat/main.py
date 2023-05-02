@@ -64,22 +64,22 @@ def contact_api(content):
 
 
 def execute_and_get_result(command):
-    print(f"About to execute the following command: {command}")
-    confirmation = input("Do you want to proceed? (yes/no): ").lower().strip()
+    print(f"executing command: {command}")
+    # confirmation = input("Do you want to proceed? (yes/no): ").lower().strip()
 
-    if confirmation == "yes":
-        try:
-            output = subprocess.check_output(
-                command, shell=True, stderr=subprocess.STDOUT, text=True)
-            exit_status = 0
-        except subprocess.CalledProcessError as e:
-            output = e.output
-            exit_status = e.returncode
+    # if confirmation == "yes":
+    try:
+        output = subprocess.check_output(
+            command, shell=True, stderr=subprocess.STDOUT, text=True)
+        exit_status = 0
+    except subprocess.CalledProcessError as e:
+        output = e.output
+        exit_status = e.returncode
 
-        return output.strip(), exit_status
-    else:
-        print("Command execution canceled.")
-        return "Canceled by user", -1
+    return output.strip(), exit_status
+    # else:
+    #     print("Command execution canceled.")
+    #     return "Canceled by user", -1
 
 
 def split_response_and_command(assistant_response):
@@ -94,9 +94,19 @@ def split_response_and_command(assistant_response):
     return "\n".join(message).strip(), execute_command
 
 
+message, command = None, None
+
 while True:
+    prompt = ""
+
+    if command:
+        command_output, exit_status = execute_and_get_result(command)
+        exec_result_prompt = f"executeResult {{\n  cmd: {command}\n  output: {command_output}\n  exit: {exit_status}\n}}"
+        print(exec_result_prompt)
+        prompt += exec_result_prompt + "\n---\n"
+
     user_input_lines = []
-    print("You (Press Ctrl+D to submit your input):")
+    print("> (Ctrl+D to submit)")
     while True:
         try:
             line = input()
@@ -111,21 +121,12 @@ while True:
         _, new_chat_filename = user_input.split(" ", 1)
         change_chat(new_chat_filename)
         print(f"Switched to chat: {new_chat_filename}")
-    else:
-        assistant_response = contact_api(user_input)
+        continue
 
-        message, command = split_response_and_command(assistant_response)
+    prompt += user_input
 
-        print(f"GPT-4: {message}")
+    assistant_response = contact_api(prompt)
 
-        if command:
-            command_output, exit_status = execute_and_get_result(command)
+    message, command = split_response_and_command(assistant_response)
 
-            print(f"Output: {command_output}\nExit Status: {exit_status}")
-
-            user_input = f"The command executed with the following output:\n{command_output}\nExit Status: {exit_status}"
-            assistant_response = contact_api(user_input)
-
-            message, command = split_response_and_command(assistant_response)
-
-            print(f"GPT-4: {message}")
+    print(f">> {assistant_response}")
