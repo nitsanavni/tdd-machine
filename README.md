@@ -1,4 +1,4 @@
-This is an experiment, with some very cool results!
+This is a small experiment, with some very cool results! 😎
 
 It has very few components:
 
