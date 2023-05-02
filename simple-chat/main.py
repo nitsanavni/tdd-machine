@@ -50,7 +50,7 @@ def contact_api(content):
     chat_history.append({"role": "user", "content": content})
 
     response = requests.post(API_URL, headers=HEADERS, json={
-                             "model": "gpt-3.5-turbo", "messages": chat_history})
+                             "model": "gpt-4", "messages": chat_history})
     response_json = response.json()
 
     if "choices" in response_json and len(response_json["choices"]) > 0:
