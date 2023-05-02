@@ -7,7 +7,7 @@ It has very few components:
 
 When used together we effectively get a **TDD Machine**, that works in small steps, constantly verifying the previous steps using concrete commands on the host cli.
 
-[Here's an example](./fizzbuzz-chat-readable) of the machine working on the fizzbuzz kata.
+[Here's an example](./fizzbuzz-chat-readable) of the machine working on the fizzbuzz kata, almost entirely unsupervised. Thanks to the small and concrete feedback it gets from the commands it's executing on the host it's able to course correct and find its way to the solution.
 
 ## Run It
 
