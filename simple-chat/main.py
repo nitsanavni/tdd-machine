@@ -50,7 +50,7 @@ def contact_api(content):
     chat_history.append({"role": "user", "content": content})
 
     response = requests.post(API_URL, headers=HEADERS, json={
-                             "model": "gpt-4", "messages": chat_history})
+                             "model": "gpt-3.5-turbo", "messages": chat_history})
     response_json = response.json()
 
     if "choices" in response_json and len(response_json["choices"]) > 0:
@@ -60,7 +60,7 @@ def contact_api(content):
         store_chat_history(chat_history)
         return assistant_message
     else:
-        return "Error: Unable to get a response from the GPT-4 API."
+        return f"Error: Unable to get a response from the GPT-4 API. {response.text}"
 
 
 def execute_and_get_result(command):
