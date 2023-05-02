@@ -9,6 +9,15 @@ When used together we effectively get a **TDD Machine**, that works in small ste
 
 [Here's an example](./fizzbuzz-chat-readable) of the machine working on the fizzbuzz kata.
 
+## Run It
+
+```shell
+export OPENAI_API_KEY=XXX
+python chat-and-execute.py
+```
+
+**Note:** gpt-4 seems to do the better job here...
+
 ## The `execute:` Directive
 
 The AI can respond with lines of the form `execute: {command}` - and these commands are automatically executed on the host as a child process.
