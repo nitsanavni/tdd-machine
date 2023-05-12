@@ -23,10 +23,14 @@ DevProcess {
             log("execute: $command")
             // meaning, you must have a separate line in your response starting with "execute: "
         }
+        function execute(multipleCommands) {
+            execute(multipleCommands.join("; "))
+        }
         function write(contents, file) {
             command = "touch $file"
             for each line in contents:
                 command += "&& echo $line >> $file"
+            command += "&& cat $file"
             command |> execute
         }
         function writeTest(test) {
@@ -40,6 +44,8 @@ DevProcess {
         write the test code
         see it fail
         now implement production code
+        refactor(criteria = { smallFunctions, smallFiles, goodNames })
+        choose next requirement |> implement
     }
     function askForCodingGoal() {
         log("what should we work on?")
