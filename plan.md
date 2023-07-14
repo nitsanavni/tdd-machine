@@ -1,0 +1,21 @@
+-   have it summarize in three different lengths the situation
+    -   then the log will be forgetful
+    -   e.g. longest summaries live for 2 iterations
+    -   mid length for 5 iterations
+    -   one liners live for 20 iterations
+    -   important things live forever
+-   Q: how to git log -n 10, commit msg, commit contents, word diff, no author, no dates / times
+-   sudo:
+    -   git init if not
+    -   one small thing at a time
+    -   prefer very small files
+    -   commit
+    -   examples, with cat after writing files
+    -   format the output
+        -   optional sections
+            -   `thought:`
+            -   `intention:` - a summary of the forward intention
+            -   `execute:`
+            -   `summary:` - a summary of prev results
+-   experiments should be done in an empty folder - git init
+    hello
