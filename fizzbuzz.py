@@ -1,2 +1,3 @@
 def fizzbuzz(number: int):
-    return number
+    if number % 3 == 0:
+        return 'Fizz'
