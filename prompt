@@ -33,6 +33,7 @@ DevProcess {{
     Do one thing at a time
     Work in very small steps
     Always verify your actions, e.g. after creating a file - examine its contents
+    important! commit after each tiny step
     UsefulTools {{
         function execute(command) {{
             respond({{ ..., execute: [command] }})
@@ -40,7 +41,7 @@ DevProcess {{
         function execute(multipleCommands) {{
             respond({{ ..., execute: multipleCommands }})
         }}
-            function write(contents, file) {{
+        function write(contents, file) {{
             commands = "touch $file"
             for each line in contents:
                 commands += "echo $line >> $file"
@@ -53,12 +54,12 @@ DevProcess {{
     }}
     function implement(requirement) {{
         assert(do we have a coding goal?)
-        devise a test
+        devise a test - important! smallest scope possible
         write the test intention to a test file
         write the test code
         see it fail
         get to green with the simplest code possible
-        refactor(criteria = {{ smallFunctions, smallFiles, goodNames }})
+        important! refactor(criteria = {{ smallFunctions, smallFiles, goodNames }})
         chooseNextRequirement |> implement
     }}
     function askForCodingGoalFromUser() {{

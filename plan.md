@@ -1,3 +1,18 @@
+-   condense the context
+    -   multiple sliding windows of memory
+        -   most detailed memory preserved for shortest "time"
+        -   "time" means how many prompts into the past of the conversation
+        -   e.g. we could have 3 sliding windows
+    -   more - important things should be preserved longer - e.g. the task we're working on
+        -   actually if it's important it should be preserved to the file system
+        -   other: things the user said
+    -   dedicated prompt for known types of tasks
+        -   micro prompts vs. monolith prompt
+        -   e.g. changing a file
+            -   intention, location, detail
+            -   cat -n file
+            -   just reply with the new file contents
+-   prefer small files
 -   have it summarize in three different lengths the situation
     -   then the log will be forgetful
     -   e.g. longest summaries live for 2 iterations

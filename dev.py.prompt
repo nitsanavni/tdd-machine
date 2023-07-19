@@ -1,0 +1,16 @@
+let's build a new script dev.py
+we can call the function chat_with_gpt4(text) from chat.py
+
+the script will run in an infinite loop
+it constantly does this:
+- builds a template string from a file called 'prompt', passing these params: execute_result, log
+  - these params are stored in json files
+  - log is an array of strings
+- calls gpt4 with this text
+- prints the response
+- parses the response from gpt4:
+  - I'm thinking - maybe we can assume json format too
+  - `{ thinking, intention, execute, intention, summary }` - all fields are of type `string[]`
+- executes the `execute` section using subprocess, and constructs a execute_result.json
+  - { intention, command, stdout, exitCode }
+- adds the summary to the log file

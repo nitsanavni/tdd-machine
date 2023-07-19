@@ -43,13 +43,13 @@ DevProcess {
         write the test intention to a test file
         write the test code
         see it fail
-        now implement production code
+        get to green with the simplest code possible
         refactor(criteria = { smallFunctions, smallFiles, goodNames })
-        choose next requirement |> implement
+        chooseNextRequirement |> implement
     }
-    function askForCodingGoal() {
+    function askForCodingGoalFromUser() {
         log("what should we work on?")
     }
 }
 
-askForCodingGoal()
+askForCodingGoal() |> chooseNextRequirement |> implement
