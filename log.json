@@ -1,5 +1,97 @@
 []
-working on fizzbuzz kata, using Python and unittest
-test_fizzbuzz.py file created
-Test failed due to missing 'fizzbuzz' function
-Create fizzbuzz function; test is failing because it does not return 'Fizz' for inputs divisible by 3
+thinking:
+We are starting the Game of Life kata
+Need to read through the kata description first
+summary:
+Starting the Game of Life kata
+intention:
+Read the gol.md file containing the kata description
+thinking:
+The Game of Life kata description was read successfully
+summary:
+Understood the Game of Life kata description
+intention:
+Devising a test for the first requirement: a cell with fewer than two neighbours dies
+thinking:
+The user has given no input, but the previous instructions mentioned devising a test.
+summary:
+Starting the Game of Life kata, understood its description, and now devising a test.
+intention:
+Create a test file for the first requirement: a cell with fewer than two neighbours dies.
+thinking:
+Created a test file for the first requirement of the Game of Life kata: a cell with fewer than two neighbours dies.
+summary:
+Test file for the first requirement of the Game of Life kata has been created.
+intention:
+Make the test fail by running it with unittest.
+thinking:
+The test has passed but it should have failed
+The test case is not properly set up
+summary:
+Test case is not properly set up
+intention:
+Setup a failing test case
+thinking:
+The test case now fails as expected
+I should now implement the functionality to make this test pass
+summary:
+Setup a failing test case for cell with less than two neighbours dies in the Game of Life
+intention:
+Implement functionality for Game of Life; cell with less than two neighbours dies
+thinking:
+the test case still fails
+reason: no change in the test after adding function
+I should now modify the test to use new function
+summary:
+test failed; no change in the test after adding function
+intention:
+modify the test to call the new function
+thinking:
+Test case now correctly uses the function cell_dies
+Running the test case shows all tests pass
+summary:
+Modified the test case to correctly use the function cell_dies; all tests pass
+intention:
+All tests pass so now we will commit the current changes
+thinking:
+The last step was successful. The test for a requirement, 'a cell with fewer than two neighbours dies', passed and the code changes are committed.
+Ready to proceed to the next requirement
+summary:
+Successfully implemented the requirement: 'a cell with fewer than two neighbours dies' of the Game of Life kata
+intention:
+Create a test for the next requirement: 'a cell with two or three neighbours lives on to the next generation'
+thinking:
+The new test has been successfully added
+The new test should fail since the corresponding function has not been implemented yet
+Let's run the test to confirm this
+summary:
+Created a new test for the requirement: 'a cell with two or three neighbours lives on to the next generation'
+Now we need to run the test and expect it to fail
+intention:
+Run the updated test file to see if the new test fails as expected
+thinking:
+The test passed when it should have failed. This indicates the new test was not picked up properly by the test runner.
+summary:
+The new test for the requirement: 'a cell with two or three neighbours lives on to the next generation' didn't fail as expected. The test runner hasn't picked it correctly.
+intention:
+Correct the test definition and rerun the test
+thinking:
+Now that the test for 'a cell with two or three neighbours lives on to the next generation' is correctly failing
+summary:
+The new test for the requirement: 'a cell with two or three neighbours lives on to the next generation' now fails as expected
+intention:
+Implement the logic for the requirement 'a cell with two or three neighbours lives on to the next generation' inside the gol module
+thinking:
+The test for 'a cell with two or three neighbours lives on to the next generation' is failing as expected because the logic is not implemented yet
+summary:
+The test for the requirement 'a cell with two or three neighbours lives on to the next generation' fails as expected
+intention:
+Add a function to meet the requirement 'a cell with two or three neighbours lives on to the next generation'
+thinking:
+The new function 'lives_on' has been added into the 'gol.py' file
+The test 'test_cell_with_two_or_three_neighbours_lives_on' is failing because it's still asserting False
+I need to call the 'lives_on' function inside the failing test and rerun the tests
+summary:
+The new function 'lives_on' has been added. Now, the failing test needs to be modified to use the new function and tests need to be rerun
+intention:
+Replace 'assert False' with 'self.assertTrue(lives_on(2))' in the 'test_cell_with_two_or_three_neighbours_lives_on' test and re-run the tests

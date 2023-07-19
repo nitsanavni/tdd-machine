@@ -9,11 +9,32 @@ def read_file(file):
         return f.read()
 
 
-def build_template(template_file, execute_result_json, log_json, message_from_user):
+def read_files(files):
+    contents = {}
+    for file in files:
+        try:
+            contents[file] = read_file(file)
+        except FileNotFoundError:
+            contents[file] = "File not found"
+        except Exception as e:
+            contents[file] = f"Error reading file: {str(e)}"
+    return contents
+
+
+def build_template(
+    template_file,
+    execute_result_json,
+    log_json,
+    message_from_user,
+    files_before_execute_json,
+    files_after_execute_json,
+):
     return read_file(template_file).format(
         log=log_json,
         execute_result=execute_result_json,
         message_from_user=message_from_user,
+        files_before_execute=files_before_execute_json,
+        files_after_execution=files_after_execute_json,
     )
 
 
@@ -60,19 +81,35 @@ write_to_file("log.json", [])
 
 message_to_user = ["start"]
 
+files_before_execution = {}
+files_after_execution = {}
+
 while True:
     if message_to_user:
         user_input = input("\n".join(message_to_user) + "\n>")
+    else:
+        user_input = ""
 
     execute_result = load_from_file("execute_result.json")
     log = read_file("log.json")
 
-    text = build_template("prompt", execute_result, log, user_input)
+    text = build_template(
+        "prompt",
+        execute_result,
+        log,
+        user_input,
+        json.dumps(files_before_execution, indent=4),
+        json.dumps(files_after_execution, indent=4),
+    )
+
     gpt4_response = chat_with_gpt4(text + "\n\n" + user_input)
 
     print(gpt4_response)
 
     response = parse_response(gpt4_response)
+
+    if response.get("files"):
+        files_before_execution = read_files(response.get("files"))
 
     if response["execute"]:
         execute_result = {
@@ -84,8 +121,19 @@ while True:
     else:
         write_to_file("execute_result.json", {})
 
+    if response.get("files"):
+        files_after_execution = read_files(response.get("files"))
+
     if response["summary"]:
-        add_to_log_file("log.json", "\n".join(response["summary"]))
+        add_to_log_file(
+            "log.json",
+            "thinking:\n"
+            + "\n".join(response["thinking"])
+            + "\nsummary:\n"
+            + "\n".join(response["summary"])
+            + "\nintention:\n"
+            + "\n".join(response["intention"]),
+        )
 
     try:
         message_to_user = response["message_to_user"]
