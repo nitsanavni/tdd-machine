@@ -58,8 +58,11 @@ def write_to_file(filename, content):
 write_to_file("execute_result.json", {})
 write_to_file("log.json", [])
 
+message_to_user = ["start"]
+
 while True:
-    user_input = input(">")
+    if message_to_user:
+        user_input = input("\n".join(message_to_user) + "\n>")
 
     execute_result = load_from_file("execute_result.json")
     log = read_file("log.json")
@@ -83,3 +86,8 @@ while True:
 
     if response["summary"]:
         add_to_log_file("log.json", "\n".join(response["summary"]))
+
+    try:
+        message_to_user = response["message_to_user"]
+    except Exception as e:
+        message_to_user = []
