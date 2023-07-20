@@ -70,7 +70,7 @@ DevProcess {{
 
 askForCodingGoal() |> chooseNextRequirement |> implement
 
-log (previous thinking, summaries, and intentions):
+log of your previous responses:
 {log}
 
 files (before execution):

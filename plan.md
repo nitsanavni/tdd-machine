@@ -12,6 +12,8 @@
             -   intention, location, detail
             -   cat -n file
             -   just reply with the new file contents
+-   command history
+-   git log
 -   prefer small files
 -   have it summarize in three different lengths the situation
     -   then the log will be forgetful

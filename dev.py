@@ -102,7 +102,11 @@ while True:
         json.dumps(files_after_execution, indent=4),
     )
 
-    gpt4_response = chat_with_gpt4(text + "\n\n" + user_input)
+    print("\n-------\n")
+
+    print(text)
+
+    gpt4_response = chat_with_gpt4(text)
 
     print(gpt4_response)
 
@@ -111,7 +115,7 @@ while True:
     if response.get("files"):
         files_before_execution = read_files(response.get("files"))
 
-    if response["execute"]:
+    if response.get("execute"):
         execute_result = {
             "intention": response["intention"],
             "exec": execute_commands(response["execute"]),
@@ -124,7 +128,7 @@ while True:
     if response.get("files"):
         files_after_execution = read_files(response.get("files"))
 
-    if response["summary"]:
+    if response.get("summary"):
         add_to_log_file(
             "log.json",
             "thinking:\n"
@@ -135,7 +139,4 @@ while True:
             + "\n".join(response["intention"]),
         )
 
-    try:
-        message_to_user = response["message_to_user"]
-    except Exception as e:
-        message_to_user = []
+    message_to_user = response.get("message_to_user")
