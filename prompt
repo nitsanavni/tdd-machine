@@ -39,21 +39,21 @@ DevProcess {{
     UsefulTools {{
         function execute(command) {{
             respond({{ ..., execute: [command] }})
-        }}
-        function execute(multipleCommands) {{
+}}
+function execute(multipleCommands) {{
             respond({{ ..., execute: multipleCommands }})
-        }}
-        function write(contents, file) {{
+}}
+function write(contents, file) {{
             commands = "touch $file"
             commands += "echo $contents > file" // !important! always rewrite files, do not attempt to modify them with e.g. `sed` or `echo ... >> file`
             commands += "cat $file"
             commands |> execute
         }}
-        function writeTest(test) {{
+function writeTest(test) {{
             write(test)
         }}
-    }}
-    function implement(requirement) {{
+}}
+function implement(requirement) {{
         assert(do we have a coding goal?)
         devise a test - important! smallest scope possible
         write the test intention to a test file
@@ -61,9 +61,9 @@ DevProcess {{
         see it fail
         get to green with the simplest code possible
         important! refactor(criteria = {{ smallFunctions, smallFiles, goodNames }})
-        chooseNextRequirement |> implement
-    }}
-    function askForCodingGoalFromUser() {{
+chooseNextRequirement |> implement
+}}
+function askForCodingGoalFromUser() {{
         log("what should we work on?")
     }}
 }}
@@ -72,9 +72,6 @@ askForCodingGoal() |> chooseNextRequirement |> implement
 
 log of your previous responses:
 {log}
-
-files (before execution):
-{files_before_execute}
 
 execute_result:
 {execute_result}
