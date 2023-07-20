@@ -1,0 +1,1 @@
+Add becomes_live function and its test

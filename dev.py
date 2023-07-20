@@ -117,7 +117,7 @@ while True:
 
     if response.get("execute"):
         execute_result = {
-            "intention": response["intention"],
+            "intention": response.get("intention"),
             "exec": execute_commands(response["execute"]),
         }
         print(execute_result)
@@ -131,12 +131,15 @@ while True:
     if response.get("summary"):
         add_to_log_file(
             "log.json",
-            "thinking:\n"
-            + "\n".join(response["thinking"])
-            + "\nsummary:\n"
-            + "\n".join(response["summary"])
-            + "\nintention:\n"
-            + "\n".join(response["intention"]),
+            "---\n"
+            + "\n".join(
+                [
+                    "{}: {}".format(it, "; ".join(response.get(it)))
+                    for it in ["thinking", "summary", "intention", "message_to_user"]
+                    if response.get(it)
+                ]
+            )
+            + (user_input if user_input else ""),
         )
 
     message_to_user = response.get("message_to_user")
