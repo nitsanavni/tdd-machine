@@ -17,3 +17,5 @@ def test_third_number(self):
     self.assertEqual(fizzbuzz(3),'Fizz')
 def test_fourth_number(self):
     self.assertEqual(fizzbuzz(5),'Buzz')
+def test_fifth_number(self):
+    self.assertEqual(fizzbuzz(15),'FizzBuzz')
