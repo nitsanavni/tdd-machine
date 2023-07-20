@@ -10,15 +10,17 @@ def read_file(file):
 
 
 def read_files(files):
-    contents = {}
+    contents = ""
+    ret = ""
     for file in files:
         try:
-            contents[file] = read_file(file)
+            contents = read_file(file)
         except FileNotFoundError:
-            contents[file] = "File not found"
+            contents = "File not found"
         except Exception as e:
-            contents[file] = f"Error reading file: {str(e)}"
-    return contents
+            contents = f"Error reading file: {str(e)}"
+        ret += f"{file}\n---\n{contents}\n\n"
+    return ret
 
 
 def build_template(
@@ -99,7 +101,7 @@ while True:
         log,
         user_input,
         json.dumps(files_before_execution, indent=4),
-        json.dumps(files_after_execution, indent=4),
+        files_after_execution,
     )
 
     print("\n-------\n")
@@ -139,7 +141,7 @@ while True:
                     if response.get(it)
                 ]
             )
-            + (user_input if user_input else ""),
+            + (("\nmessage from user: " + user_input) if user_input else ""),
         )
 
     message_to_user = response.get("message_to_user")
