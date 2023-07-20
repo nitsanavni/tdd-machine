@@ -5,6 +5,6 @@ class TestFizzBuzz(unittest.TestCase):
         self.assertEqual(fizzbuzz(3), 'Fizz')
         self.assertEqual(fizzbuzz(5), 'Buzz')
         self.assertEqual(fizzbuzz(15), 'FizzBuzz')
-        self.assertEqual(fizzbuzz(2), '2')
+        self.assertEqual(fizzbuzz(2), 2)
 if __name__ == '__main__':
     unittest.main()
