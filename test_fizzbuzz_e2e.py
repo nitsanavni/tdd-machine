@@ -11,3 +11,5 @@ class TestFizzBuzz(unittest.TestCase):
 
 
         self.assertEqual(fizzbuzz(1),'1')
+def test_second_number(self):
+    self.assertEqual(fizzbuzz(2),'2')

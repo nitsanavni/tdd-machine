@@ -24,7 +24,7 @@ respond only in json, nothing more, with the following format:
 }}
 
 thinking: optional - a compact and clear thought, before the next action
-message_to_user: optional - a message to the user; this should be empty most times, prefer being independent and autonomous
+message_to_user: optional - a message to the user; this should be empty most times, prefer being independent and autonomous; but if you await a user input, use it
 summary: given the logs and the last executed intention and command results, a summary of what happened; this will be appended to subsequent prompts
 intention: a compact, clear, and context-complete intention for the next step
 execute: optional - a command for the cli to carry out the intention, this command will be executed on the host machine running the script, and the result will be sent to you in the next prompt
